@@ -32,7 +32,9 @@ export function fetchProductsByFilters({ filter, sort, pagination }) {
       "http://localhost:8080/products?" + queryString
     );
     const data = await response.json();
-    const totalItems = await response.headers.get("X-Total-Count");
-    resolve({ data: { products: data, totalItems: +totalItems } });
+    const products = data.data;
+    const totalItems = data.items;
+    //const totalItems = await response.headers.get("X-Total-Count");
+    resolve({ data: { products: products, totalItems: totalItems } });
   });
 }
