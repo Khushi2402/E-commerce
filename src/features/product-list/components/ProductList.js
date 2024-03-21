@@ -2,6 +2,7 @@ import React, { useState, Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   fetchAllProductsAsync,
+  fetchAllProductsByIdAsync,
   fetchProductsByFiltersAsync,
   fetchBrandsAsync,
   fetchCategoriesAsync,
@@ -70,22 +71,22 @@ export default function ProductList() {
     },
   ];
 
-
   const handleFilter = (e, section, option) => {
-    console.log(e.target.checked)
-    const newFilter = {...filter};
-    if(e.target.checked) {
-      if(newFilter[section.id]){
-        newFilter[section.id].push(option.value)
-      }else{
-        newFilter[section.id]=[option.value]
+    console.log(e.target.checked);
+    const newFilter = { ...filter };
+    if (e.target.checked) {
+      if (newFilter[section.id]) {
+        newFilter[section.id].push(option.value);
+      } else {
+        newFilter[section.id] = [option.value];
       }
+    } else {
+      const index = newFilter[section.id].findIndex(
+        (el) => el === option.value
+      );
+      newFilter[section.id].splice(index, 1);
     }
-    else{
-      const index = newFilter[section.id].findIndex(el=>el===option.value)
-      newFilter[section.id].splice(index,1)
-    }
-    console.log({newFilter});
+    console.log({ newFilter });
     setFilter(newFilter);
   };
 
@@ -102,7 +103,7 @@ export default function ProductList() {
 
   useEffect(() => {
     const pagination = { _page: page, _per_page: ITEMS_PER_PAGE };
-    dispatch(fetchProductsByFiltersAsync({filter, sort, pagination}));
+    dispatch(fetchProductsByFiltersAsync({ filter, sort, pagination }));
   }, [dispatch, filter, sort, page]);
 
   useEffect(() => {
@@ -112,7 +113,7 @@ export default function ProductList() {
   useEffect(() => {
     dispatch(fetchBrandsAsync());
     dispatch(fetchCategoriesAsync());
-  },[])
+  }, []);
 
   return (
     <div>
@@ -201,11 +202,10 @@ export default function ProductList() {
               </h2>
 
               <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
-                <DesktopFilter 
-                handleFilter={handleFilter}
-                filters={filters}
-                >
-                </DesktopFilter>
+                <DesktopFilter
+                  handleFilter={handleFilter}
+                  filters={filters}
+                ></DesktopFilter>
 
                 {/* Product grid */}
                 <div className="lg:col-span-3">
@@ -230,8 +230,12 @@ export default function ProductList() {
   );
 }
 
-function MobileFilter({mobileFiltersOpen, setMobileFiltersOpen, handleFilter, filters}) {
-
+function MobileFilter({
+  mobileFiltersOpen,
+  setMobileFiltersOpen,
+  handleFilter,
+  filters,
+}) {
   return (
     <>
       {/* Mobile filter dialog */}
@@ -348,7 +352,7 @@ function MobileFilter({mobileFiltersOpen, setMobileFiltersOpen, handleFilter, fi
   );
 }
 
-function DesktopFilter({handleFilter, filters}) {
+function DesktopFilter({ handleFilter, filters }) {
   return (
     <>
       {/* Filters */}
@@ -487,7 +491,7 @@ function Pagination({ page, setPage, handlePage, totalItems }) {
   );
 }
 
-function ProductGrid({data}) {
+function ProductGrid({ data }) {
   return (
     <>
       {/* This is our products list page */}
@@ -495,11 +499,8 @@ function ProductGrid({data}) {
         <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6 sm:py-0 lg:max-w-7xl lg:px-8">
           <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
             {data.map((product) => (
-              <Link to="/product-detail">
-                <div
-                  key={product.id}
-                  className="group relative border-solid border-2 p-2 border-gray-200"
-                >
+              <Link to={`/product-detail/${product.id}`} key={product.id}>
+                <div className="group relative border-solid border-2 p-2 border-gray-200">
                   <div className="min-h-60 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-60">
                     <img
                       src={product.thumbnail}
