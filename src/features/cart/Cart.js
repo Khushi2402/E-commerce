@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { increment, incrementAsync, selectCount } from "./cartSlice";
+import { increment, incrementAsync, selectItems } from "./cartSlice";
 
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -37,7 +37,6 @@ const products = [
 
 export default function Cart() {
   const [open, setOpen] = useState(true);
-  const count = useSelector(selectCount);
   const dispatch = useDispatch();
 
   return (
@@ -53,8 +52,8 @@ export default function Cart() {
                 <li key={product.id} className="flex py-6">
                   <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                     <img
-                      src={product.imageSrc}
-                      alt={product.imageAlt}
+                      src={product.thumbnail}
+                      alt={product.title}
                       className="h-full w-full object-cover object-center"
                     />
                   </div>

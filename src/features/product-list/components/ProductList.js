@@ -31,9 +31,9 @@ import {
 import { ITEMS_PER_PAGE } from "../../../app/constants";
 
 const sortOptions = [
-  { name: "Best Rating", sort: "rating", order: "desc", current: false },
+  { name: "Best Rating", sort: "-rating", order: "desc", current: false },
   { name: "Price: Low to High", sort: "price", order: "asc", current: false },
-  { name: "Price: High to Low", sort: "price", order: "desc", current: false },
+  { name: "Price: High to Low", sort: "-price", order: "desc", current: false },
 ];
 const subCategories = [
   { name: "Totes", href: "#" },
