@@ -4,7 +4,7 @@ import { createUser, checkUser } from './authAPI';
 const initialState = {
   loggedInUser: null,
   status: "idle",
-  error: null,
+  error: null
 };
 
 export const createUserAsync = createAsyncThunk(
@@ -49,7 +49,7 @@ export const counterSlice = createSlice({
       })
       .addCase(checkUserAsync.fulfilled, (state, action) => {
         state.status = "idle";
-        state.loggedInUser = action.payload;
+        state.loggedInUser += action.payload;
       })
       .addCase(checkUserAsync.rejected, (state, action) => {
         state.status = "idle";

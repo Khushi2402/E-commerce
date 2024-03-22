@@ -1,3 +1,4 @@
+import { isRejected } from "@reduxjs/toolkit";
 
 export function createUser(userData) {
   return new Promise(async (resolve) => {
@@ -16,18 +17,18 @@ export function checkUser(loginInfo) {
   return new Promise(async (resolve, reject) => {
     const email = loginInfo.email;
     const password = loginInfo.password;
-    const response = await fetch('http://localhost:8080/users?email=' + email);
+    const response = await fetch("http://localhost:8080/users?email="+email);
     const data = await response.json();
     console.log({data})
-    if (data.length) {
-      if (password === data[0].password) {
-        resolve({ data: data[0] });
-      } else {
-        reject({ message: 'Incorrect Password' });
-      }
-    } else {
-      reject({ message: 'User not found' });
+    if(data.length) {
+      if(password===data[0].password){
+        resolve({ data:data[0] });
+      }else{
+        reject({message: 'Password not matched'});
+      }   
+    }else{
+      reject({message: 'User not found'});
     }
-    // TODO: on server it will only return some info of user (not password)
+    
   });
 }
