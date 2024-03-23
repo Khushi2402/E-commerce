@@ -14,7 +14,6 @@ import {
   Link,
 } from "react-router-dom";
 import Checkout from './pages/Checkout';
-import ProductDetail from './features/product-list/components/ProductDetail';
 import ProductDetailPage from './pages/ProductDetailPage';
 import Protected from './features/auth/components/Protected';
 import { useDispatch, useSelector } from "react-redux";
